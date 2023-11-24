@@ -56,10 +56,17 @@ header {
     align-items: center;
     justify-content: center;
 }
+.items-center {
+    align-items: center;
+}
+.justify-center {
+    justify-content: center;
+}
 
 .btn {
     border-radius: 6px;
     padding: 6px 12px;
+    font-size: 1em;
 }
 .btn:focus-visible {
     outline: 3px solid #005BD3;
