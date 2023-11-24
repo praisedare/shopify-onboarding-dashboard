@@ -7,6 +7,7 @@ html {
     font-family: Inter;
     --filter-color-light-gray: invert(100%) sepia(1%) saturate(437%) hue-rotate(289deg) brightness(113%) contrast(78%);
     --filter-color-dark-gray: invert(95%) sepia(0%) saturate(1047%) hue-rotate(152deg) brightness(80%) contrast(82%);
+    --filter-color-white: invert(100%) sepia(5%) saturate(141%) hue-rotate(77deg) brightness(120%) contrast(100%);
     --text-light-gray: #e3e3e3;
     --text-dark-gray: #b5b5b5;
     --text-light-gray-with-opacity: #b5b5b5ef;
@@ -21,6 +22,13 @@ html, body {
 body {
     background-color: #f1f1f1;
     font-size: 13px;
+}
+
+button {
+    border: none;
+}
+button:hover {
+    cursor: pointer;
 }
 
 header {
@@ -132,15 +140,32 @@ header {
 @media screen and (min-width: 480px) {
     .header__shop-badge,
     .header__bell-icon-wrapper {
-        padding: 10px;
-        border-radius: 7px;
+        height: 2rem;
+        display: flex;
+        align-items: center;
+        border-radius: 8px;
+    }
+    .header__shop-badge {
+        padding: 2px;
     }
 }
 
 @media screen and (min-width: 480px) {
     .header__bell-icon-wrapper {
+        width: 2rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         padding: 10px;
+    }
+    .header__bell-icon-wrapper,
+    .header__shop-badge {
         background-color: var(--color-translucent-gray);
+        transition: background-color 0.15s;
+    }
+    .header__bell-icon-wrapper:hover,
+    .header__shop-badge:hover {
+        background-color: #4a4a4a;
     }
 }
 .header__bell-icon {
@@ -157,12 +182,40 @@ header {
 @media screen and (min-width: 480px) {
     .header__shop-name {
         display: initial;
+        padding: 5px;
     }
 }
 .header__shop-icon {
     border-radius: 8px;
     padding: 5px;
-    background-color: #45f9a4;
-    color: #004f2a;
+    background-color: #36FBA1;
+    color: #000000AA;
+    height: 100%;
+}
+
+main {
+    margin: 5rem auto;
+    max-width: 49.75rem;
+}
+
+.alert {
+    background-color: #1a1a1a;
+    color: var(--text-light-gray);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.alert__content {
+    display: flex;
+    justify-content: space-between;
+    flex: 1;
+}
+
+.alert__close {
+    filter: var(--filter-color-white);
+    width: 20px;
 }
 
