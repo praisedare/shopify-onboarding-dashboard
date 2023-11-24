@@ -30,6 +30,20 @@ header > [class^=header__] {
 .header__logo-container {
     justify-content: start;
 }
+.header__logo-small {
+    
+}
+.header__logo-large {
+    display: none;
+}
+@media screen and (min-width: 480px) {
+    .header__logo-small {
+        display: none;
+    }
+    .header__logo-large {
+        display: block;
+    }
+}
 
 .header__search-bar-container {
     justify-content: center;
@@ -63,10 +77,10 @@ header > [class^=header__] {
     border-radius: 0.5rem;
     background-color: #303030;
     color: #B5B5B5;
-    transition: 0.05s;
+    transition: 0.15s;
 }
 .header__search-input::placeholder {
-    color: #b5b5b5;
+    color: #b5b5b5ef;
     font-weight: 300;
 }
 .header__search-input:hover {
