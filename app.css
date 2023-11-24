@@ -75,6 +75,7 @@ header {
     border-radius: 6px;
     padding: 6px 12px;
     font-size: 1em;
+    background-color: unset;
 }
 .btn:focus-visible {
     outline: 3px solid #005BD3;
@@ -259,9 +260,13 @@ header {
     }
 }
 
+.header__bell-icon-wrapper {
+    width: 2rem;
+    height: 2rem;
+}
+
 @media screen and (min-width: 480px) {
     .header__bell-icon-wrapper {
-        width: 2rem;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -282,9 +287,14 @@ header {
 }
 
 .header__shop-badge {
-    background-color: var(--color-translucent-gray);
     color: var(--text-light-gray);
 }
+@media screen and (min-width: 480px) {
+    .header__shop-badge {
+        background-color: var(--color-translucent-gray);
+    }
+}
+
 .header__shop-name {
     display: none;
 }
