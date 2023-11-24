@@ -24,6 +24,7 @@ html {
 html, body {
     padding: 0;
     margin: 0;
+    height: 100%;
 }
 
 h2 {
@@ -78,7 +79,7 @@ header {
     background-color: unset;
 }
 .btn:focus-visible {
-    outline: 3px solid #005BD3;
+    outline: 2px solid #005BD3;
     outline-offset: 0.125rem;
 }
 .btn-light {
@@ -158,14 +159,14 @@ header {
 /* Header sections sizes and alignment */
 /* Mobile */
     .header__logo-container {
-        width: 15%;
+        width: 17.5%;
         padding: 0 12px;
     }
     .header__search-bar-container {
-        width: 60%;
+        width: 55%;
     }
     .header__user-profile-container {
-        width: 25%;
+        width: 27.5%;
         justify-content: space-around;
     }
 /* End Mobile */
@@ -320,21 +321,28 @@ main {
 .alert {
     background-color: #1a1a1a;
     color: var(--text-light-gray);
-    border-radius: 0.5rem;
     padding: 0.75rem 1rem;
     display: flex;
     justify-content: space-between;
     gap: 1rem;
 }
+@media screen and (min-width: 480px) {
+    .alert {
+        border-radius: 0.5rem;
+    }
+}
 
 .alert__content {
     display: flex;
     justify-content: space-between;
+    flex-flow: row wrap;
     flex: 1;
+    gap: 10px;
 }
 
 .alert__close {
-    width: 20px;
+    width: 2rem;
+    height: 2rem;
 }
 
 .setup-guide {
