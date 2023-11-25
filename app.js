@@ -103,7 +103,8 @@ const taskStateIcons = {
  */
 const c = className => `.${className}`;
 
-(() => {
+
+{ // Setup Tasks
     const selector_taskItem = 'setup-task'
         , selector_taskOpen = 'setup-task--open'
         , selector_taskHeader = 'setup-task__header'
@@ -129,5 +130,11 @@ const c = className => `.${className}`;
         $(c(selector_taskOpen)).toggleClass(selector_taskOpen)
         $taskItem.classList.toggle(selector_taskOpen)
     })
-})();
+}
+
+{ // Alerts
+    $('.alert .alert__close').onclick(function() {
+        this.closest('.alert').style.display = 'none';
+    })
+}
 
