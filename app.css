@@ -350,11 +350,13 @@ main {
 
 .alert {
     background-color: #1a1a1a;
-    color: var(--text-light-gray);
     padding: 0.75rem 1rem;
     display: flex;
     justify-content: space-between;
     gap: 1rem;
+}
+.alert .alert__content {
+    color: var(--text-light-gray);
 }
 @media screen and (min-width: 480px) {
     .alert {
@@ -430,9 +432,14 @@ main {
     width: 65.03%;
 }
 .setup-task__details-right {
-    width: 32.79%;
-    display: flex;
-    justify-content: end;
+    display: none;
+}
+@media screen and (min-width: 480px) {
+    .setup-task__details-right {
+        width: 32.79%;
+        display: flex;
+        justify-content: end;
+    }
 }
 .setup-task__status-icon-wrapper {
     max-width: 2rem;
