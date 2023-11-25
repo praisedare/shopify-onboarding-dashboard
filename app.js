@@ -4,7 +4,11 @@
  * @copyright Praise Dare 2023
  */
 function $(selector) {
-    return new jqWrapper(document.querySelectorAll(selector));
+    return new jqWrapper(
+        typeof selector == 'string'
+            ? document.querySelectorAll(selector)
+            : selector
+    );
 }
 
 const jqWrapper = (() => {
@@ -67,6 +71,8 @@ const jqWrapper = (() => {
      * @param {string} classNames A space delimited list of the classnames to toggle
      */
     jqWrapper.prototype.toggleClass = function(classNames) {
+        if (!classNames.length)
+            return
         let classNamesArr = classNames.split(' ')
         each(
             this,
@@ -86,11 +92,15 @@ const jqWrapper = (() => {
     return jqWrapper
 })();
 
-const taskStateIcons = {
-    incomplete: 'https://crushingit.tech/hackathon-assets/icon-dashed-circle.svg',
-    loading: 'https://crushingit.tech/hackathon-assets/icon-spinner.svg',
-    complete: 'https://crushingit.tech/hackathon-assets/icon-checkmark-circle.svg',
-};
+const utils = {
+    /**
+     * Returns a promise that resolves after the given number of milliseconds
+     * @param {number} ms
+     */
+    promiseTimeout(ms) {
+        return new Promise(r => setTimeout(r, ms))
+    }
+}
 
 // Testing
 // $('.setup-task').onclick(function(e) {
@@ -121,12 +131,65 @@ const selector_taskItem = 'setup-task'
 
 const TaskItemProto = ({
     /**
+     * Represents the completion state of the task item
+     */
+    complete: false,
+
+    /**
      * Open the task item
      */
     _open() {
         this.classList.add(selector_taskOpen)
     },
-    __proto__: HTMLDivElement.prototype
+
+    __proto__: HTMLDivElement.prototype,
+
+    get selector_taskBtn() {
+        return '_js-task-btn-state-toggle'
+    },
+
+    get selector_taskStateIcon() {
+        return '_js-task-state-icon'
+    },
+
+    /**
+     * The image used to represent the completion state of the task
+     * @type {HTMLImageElement}
+     */
+    get elem_taskStateIcon() {
+        return this.querySelector(c(this.selector_taskStateIcon))
+    },
+
+    /**
+     * The button containing the task's state icon
+     * @type {HTMLButtonElement}
+     */
+    get elem_taskBtn() {
+        return this.querySelector(c(this.selector_taskBtn));
+    },
+
+    get taskStateIcons() {
+        return {
+            incomplete: {
+                src: 'https://crushingit.tech/hackathon-assets/icon-dashed-circle.svg',
+                className: 'filter-color-medium-gray',
+            },
+            loading: {
+                src: 'https://crushingit.tech/hackathon-assets/icon-spinner.svg',
+                className: 'filter-color-medium-gray animation__spin',
+            },
+            complete: {
+                src: 'https://crushingit.tech/hackathon-assets/icon-checkmark-circle.svg',
+                className: '',
+            }
+        };
+    },
+    /**
+     * The CSS class that styles an
+     */
+    get taskStateIconImcompleteClass() {
+        return ''
+    }
 });
 
 /**
@@ -139,7 +202,9 @@ const createTaskItem = details => {
             <div class="setup-task__left-panel">
                 <div class="setup-task__header">
                     <div class="setup-task__status-icon-wrapper">
-                        <img class="setup-task__status-icon filter-color-medium-gray" src="https://crushingit.tech/hackathon-assets/icon-dashed-circle.svg" alt="">
+                        <button class="btn p-0 m-0 _js-task-btn-state-toggle">
+                            <img class="setup-task__status-icon ${TaskItemProto.taskStateIcons.incomplete.className} _js-task-state-icon" src="https://crushingit.tech/hackathon-assets/icon-dashed-circle.svg" alt="">
+                        </button>
                     </div>
                     <button class="btn setup-task__title"><h3>${details.title}</h3></button>
                 </div>
@@ -169,11 +234,52 @@ const createTaskItem = details => {
 
     Object.setPrototypeOf($taskItem, TaskItemProto)
 
-    if (details.isOpen)
-        $taskItem._open();
+    { // Bootstrapping of taskItem component
+        if (details.isOpen)
+            $taskItem._open();
+        $taskItem.elem_taskBtn.onclick = async function() {
+            if (this.__stateChanging)
+                return
+
+            this.__stateChanging = true
+
+            {
+                const initialStateIcon = $taskItem.taskStateIcons[
+                    $taskItem.complete
+                        ? 'complete'
+                        : 'incomplete'
+                ]
+
+                $taskItem.complete = !$taskItem.complete
+
+                const currentStateIcon = $taskItem.taskStateIcons[
+                    $taskItem.complete
+                        ? 'complete'
+                        : 'incomplete'
+                ];
+
+                const $stateIcon = $($taskItem.elem_taskStateIcon)
+
+                // loading
+                $stateIcon.toggleClass(initialStateIcon.className)
+                $stateIcon.toggleClass($taskItem.taskStateIcons.loading.className)
+                $taskItem.elem_taskStateIcon.src = $taskItem.taskStateIcons.loading.src
+                await utils.promiseTimeout(1.5e3)
+
+                // complete/uncomplete
+                $stateIcon.toggleClass($taskItem.taskStateIcons.loading.className)
+                $stateIcon.toggleClass(currentStateIcon.className)
+                $taskItem.elem_taskStateIcon.src = currentStateIcon.src
+                // await utils.promiseTimeout(250)
+            }
+
+            this.__stateChanging = false
+        }
+    }
 
     return $taskItem;
 }
+
 { // Setup Tasks
     // Collapsible tasks
     $(c(selector_tasksContainer)).onclick(function(e) {
