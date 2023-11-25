@@ -425,16 +425,17 @@ main {
     flex-flow: row nowrap;
     justify-content: space-between;
     padding-left: 0.5rem;
+    flex: 1;
     /* width: 93.85%; */
     /* gap: 1rem; */
-}
-.setup-task__details-left {
-    width: 65.03%;
 }
 .setup-task__details-right {
     display: none;
 }
 @media screen and (min-width: 480px) {
+    .setup-task__details-left {
+        width: 65.03%;
+    }
     .setup-task__details-right {
         width: 32.79%;
         display: flex;
