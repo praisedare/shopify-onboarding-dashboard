@@ -459,10 +459,12 @@ main {
 
 .setup-task {
     display: flex;
+    flex-flow: column wrap;
     border-radius: 10px;
     margin-bottom: 1px;
-    /* justify-content: space-between; */
-    /* gap: 8px; */
+    --setup-task-icon-width: 20px;
+    --setup-task-padding: 10px;
+    --setup-task-header-height: calc(var(--setup-task-icon-width) + var(--setup-task-padding) * 2);
 }
 .setup-task--open {
     background-color: #f3f3f3;
@@ -471,6 +473,15 @@ main {
     background-color: rgb(247,247,247);
     cursor: pointer;
 }
+
+.setup-task__header {
+	display: flex;
+	align-items: center;
+	height: 40px;
+	gap: var(--setup-task-padding);
+	padding: var(--setup-task-padding);
+}
+
 .setup-task:not(.setup-task--open) .setup-task__details-left > *:not(.setup-task__title),
 .setup-task:not(.setup-task--open) .setup-task__details-right
 {
@@ -481,11 +492,8 @@ main {
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
-    padding-left: 0.5rem;
     flex: 1;
-    margin: 0.5rem 0.5rem 11px;
-    /* width: 93.85%; */
-    /* gap: 1rem; */
+    /* margin: 0.5rem 0.5rem 11px; */
 }
 .setup-task:not(.setup-task--open) .setup-task__details {
     margin: 0;
@@ -494,6 +502,9 @@ main {
     display: none;
 }
 @media screen and (min-width: 480px) {
+    .setup-task__details {
+        margin-left: calc(var(--setup-task-padding) * 2 + var(--setup-task-icon-width));
+    }
     .setup-task__details-left {
         width: 65.03%;
     }
@@ -501,14 +512,13 @@ main {
         width: 32.79%;
         display: flex;
         justify-content: end;
+        position: relative;
+        top: calc(-1 * (var(--setup-task-header-height) - 8.5px))
     }
 }
 .setup-task__status-icon-wrapper {
-    --margin: 0.25rem;
-    min-height: calc(2rem - var(--margin));
-    width: 1.5rem;
-    margin: var(--margin);
-    margin-right: 0;
+    width: var(--setup-task-icon-width);
+    height: var(--setup-task-icon-width);
 }
 .setup-task:not(.setup-task--open) .setup-task__status-icon-wrapper {
     display: flex;
@@ -524,8 +534,12 @@ main {
     font-weight: var(--font-weight-semibold);
 }
 .setup-task:not(.setup-task--open) .setup-task__title {
-    line-height: 2rem;
     height: 100%;
     font-weight: normal;
+}
+.setup-task__description {
+    margin: 0;
+    margin-bottom: 1rem;
+    padding: 0;
 }
 
