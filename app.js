@@ -413,18 +413,22 @@ const createTaskItem = details => {
     taskItemsDefinitions.forEach(taskItemDfn => {
         const taskItem = createTaskItem(taskItemDfn)
         $tasksContainer.append(taskItem)
-        taskItem.addCompleteHook(c => {
-            if (c)
-                completedTasksCount++
-            else
-                completedTasksCount--
-            updateCompletionProgressBar()
-        })
+        taskItem.addCompleteHook(setCompletedTasksCount)
     })
 
     function updateCompletionProgressBar() {
         $('._js-tasks-complete-count')[0].innerText = completedTasksCount
         $('.progress-bar-slider')[0].style.width = `${completedTasksCount / taskItemsDefinitions.length * 100}%`
+    }
+    /**
+     * @param {boolean} c
+     */
+    function setCompletedTasksCount(c) {
+        if (c)
+            completedTasksCount++
+        else
+            completedTasksCount--
+        updateCompletionProgressBar()
     }
 }
 
