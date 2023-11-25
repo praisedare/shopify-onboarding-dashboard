@@ -74,18 +74,16 @@ const jqWrapper = (() => {
         if (!classNames.length)
             return
         let classNamesArr = classNames.split(' ')
-        each(
-            this,
+        this.each(
             el => classNamesArr.forEach(className => el.classList.toggle(className))
         )
     }
 
     /**
-     * @param {jqWrapper} jqElem
      * @param {(el: HTMLElement) => void} callback
      */
-    const each = (jqElem, callback) => {
-        for (let elem of jqElem._elems)
+    jqWrapper.prototype.each = function(callback) {
+        for (let elem of this._elems)
             callback(elem)
     }
 
@@ -131,6 +129,7 @@ const selector_taskItem = 'setup-task'
  */
 
 const TaskItemProto = ({
+    isOpen: false,
     /**
      * Represents the completion state of the task item
      */
@@ -139,8 +138,9 @@ const TaskItemProto = ({
     /**
      * Open the task item
      */
-    _open() {
-        this.classList.add(selector_taskOpen)
+    _collapseToggle() {
+        this.isOpen = !this.isOpen;
+        this.classList.toggle(selector_taskOpen);
     },
 
     __proto__: HTMLDivElement.prototype,
@@ -151,6 +151,10 @@ const TaskItemProto = ({
 
     get selector_taskStateIcon() {
         return '_js-task-state-icon'
+    },
+
+    get selector__taskTitleBtn() {
+        return 'setup-task__title'
     },
 
     /**
@@ -167,6 +171,14 @@ const TaskItemProto = ({
      */
     get elem_taskBtn() {
         return this.querySelector(c(this.selector_taskBtn));
+    },
+
+    /**
+     * The button containing the task title
+     * @type {HTMLButtonElement}
+     */
+    get elem_taskTitleBtn() {
+        return this.querySelector(c(this.selector__taskTitleBtn))
     },
 
     get taskStateIcons() {
@@ -237,7 +249,9 @@ const createTaskItem = details => {
 
     { // Bootstrapping of taskItem component
         if (details.isOpen)
-            $taskItem._open();
+            $taskItem._collapseToggle();
+
+        // Switch task completion state
         $taskItem.elem_taskBtn.onclick = async function() {
             if (this.__stateChanging)
                 return
@@ -276,30 +290,27 @@ const createTaskItem = details => {
 
             this.__stateChanging = false
         }
+
+        // Collapse
+        $taskItem.elem_taskTitleBtn.onclick = () => {
+            if ($taskItem.isOpen)
+                return
+            // close the other open task
+            $(c(selector_taskOpen)).each(el => el._collapseToggle())
+            // open this one
+            $taskItem._collapseToggle()
+        }
     }
 
     return $taskItem;
 }
 
 { // Setup Tasks
-    // Collapsible tasks
-    $(c(selector_tasksContainer)).onclick(function(e) {
-        if (
-            !jqWrapper.isChildOf(e.target, c(selector_taskTitle))
-            // If the setup-task clicked on is already opened, exit
-        )
-            return;
-
-        /** @type {HTMLDivElement} */
-        const $taskItem = e.target.closest(c(selector_taskItem))
-        console.log('clicked on', $taskItem)
-        if ($taskItem.classList.contains(selector_taskOpen))
-            return;
-
-
-        // Close theo ther open tasks
-        $(c(selector_taskOpen)).toggleClass(selector_taskOpen)
-        $taskItem.classList.toggle(selector_taskOpen)
+    // Preload all the task state icons for smoother animations
+    Object.values(TaskItemProto.taskStateIcons).forEach(i => {
+        let img = new Image
+        img.src = i.src
+        i.style = 'position: fixed; bottom: 9000px;'
     })
 }
 
