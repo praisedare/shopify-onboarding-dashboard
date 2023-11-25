@@ -276,16 +276,16 @@ const createTaskItem = details => {
             this.__stateChanging = true
 
             {
+                const newCompletionState = !$taskItem.complete
+
                 const initialStateIcon = $taskItem.taskStateIcons[
                     $taskItem.complete
                         ? 'complete'
                         : 'incomplete'
                 ]
 
-                $taskItem.complete = !$taskItem.complete
-
                 const currentStateIcon = $taskItem.taskStateIcons[
-                    $taskItem.complete
+                    newCompletionState
                         ? 'complete'
                         : 'incomplete'
                 ];
@@ -303,6 +303,9 @@ const createTaskItem = details => {
                 $stateIcon.toggleClass(currentStateIcon.className)
                 $taskItem.elem_taskStateIcon.src = currentStateIcon.src
                 // await utils.promiseTimeout(250)
+
+                // and finally change completion state
+                $taskItem.complete = newCompletionState
             }
 
             this.__stateChanging = false
