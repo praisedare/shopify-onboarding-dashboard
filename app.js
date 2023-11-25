@@ -18,3 +18,9 @@ function jqWrapper(elements) {
 
 jqWrapper.prototype.find = (selector) => new $(selector)
 
+const taskStateIcons = {
+    incomplete: 'https://crushingit.tech/hackathon-assets/icon-dashed-circle.svg',
+    loading: 'https://crushingit.tech/hackathon-assets/icon-spinner.svg',
+    complete: 'https://crushingit.tech/hackathon-assets/icon-checkmark-circle.svg',
+}
+

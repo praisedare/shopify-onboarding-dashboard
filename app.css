@@ -42,9 +42,6 @@ button {
 button:hover {
     cursor: pointer;
 }
-button:focus {
-    /* outline: none; */
-}
 
 header {
     display: flex;
@@ -414,20 +411,34 @@ main {
 
 .setup-task {
     display: flex;
+    border-radius: 10px;
     /* justify-content: space-between; */
     /* gap: 8px; */
 }
 .setup-task--open {
     background-color: #f3f3f3;
 }
+.setup-task:not(.setup-task--open):hover {
+    background-color: #fafafa;
+}
+.setup-task:not(.setup-task--open) .setup-task__details-left > *:not(.setup-task__title),
+.setup-task:not(.setup-task--open) .setup-task__details-right
+{
+    display: none;
+}
+
 .setup-task__details {
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
     padding-left: 0.5rem;
     flex: 1;
+    margin: 0.5rem 0 11px;
     /* width: 93.85%; */
     /* gap: 1rem; */
+}
+.setup-task:not(.setup-task--open) .setup-task__details {
+    margin: 0;
 }
 .setup-task__details-right {
     display: none;
@@ -443,17 +454,28 @@ main {
     }
 }
 .setup-task__status-icon-wrapper {
-    max-width: 2rem;
+    --margin: 0.25rem;
+    min-height: calc(2rem - var(--margin));
     width: 1.5rem;
-    margin: 6px 0 0 8px;
+    margin: var(--margin);
+    margin-right: 0;
+}
+.setup-task:not(.setup-task--open) .setup-task__status-icon-wrapper {
+    display: flex;
+    align-items: center;
 }
 .setup-task__status-icon {
     width: 100%;
 }
 .setup-task__title {
-    margin: 0.5rem 0 1rem;
+    padding: 0;
+    margin: 0;
+    line-height: 1;
+    font-weight: var(--font-weight-semibold);
 }
-.setup-task--incomplete {}
-.setup-task--loading {}
-.setup-task--complete {}
+.setup-task:not(.setup-task--open) .setup-task__title {
+    line-height: 2rem;
+    height: 100%;
+    font-weight: normal;
+}
 
