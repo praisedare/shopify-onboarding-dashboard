@@ -6,19 +6,15 @@ html {
     font-size: 16px;
     font-family: Inter;
     --filter-color-light-gray: invert(100%) sepia(1%) saturate(437%) hue-rotate(289deg) brightness(113%) contrast(78%);
+    --filter-color-medium-gray: invert(58%) sepia(1%) saturate(0%) hue-rotate(74deg) brightness(94%) contrast(89%);
     --filter-color-dark-gray: invert(95%) sepia(0%) saturate(1047%) hue-rotate(152deg) brightness(80%) contrast(82%);
     --filter-color-white: invert(100%) sepia(5%) saturate(141%) hue-rotate(77deg) brightness(120%) contrast(100%);
     --text-light-gray: #e3e3e3;
     --text-dark-gray: #b5b5b5;
     --text-light-gray-with-opacity: #b5b5b5ef;
     --color-translucent-gray: #ffffff14;
-}
-
-.filter-color-white {
-    filter: var(--filter-color-white);
-}
-.bg-transparent {
-    background-color: transparent;
+    --font-weight-semibold: 650;
+    --color-link: #004299;
 }
 
 html, body {
@@ -27,13 +23,17 @@ html, body {
     height: 100%;
 }
 
-h2 {
-    font-size: 14px;
-}
-
 body {
     background-color: #f1f1f1;
     font-size: 13px;
+}
+
+p {
+    color: #484848;
+}
+
+h2 {
+    font-size: 14px;
 }
 
 button {
@@ -51,6 +51,36 @@ header {
     background-color: #1a1a1a;
     height: 3.5rem;
     line-height: 20px;
+}
+
+a {
+    color: var(--color-link);
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+.filter-color-white {
+    filter: var(--filter-color-white);
+}
+.filter-color-dark-gray {
+    filter: var(--filter-color-dark-gray);
+}
+.filter-color-medium-gray {
+    filter: var(--filter-color-medium-gray);
+}
+
+.bg-transparent {
+    background-color: transparent;
+}
+
+.fs-md {
+    font-size: 0.8125rem;
+}
+
+.fw-semibold {
+    font-weight: var(--font-weight-semibold);
 }
 
 .inline-block {
@@ -379,4 +409,43 @@ main {
     height: 100%;
     transition: width 0.25s;
 }
+
+.setup-task {
+    display: flex;
+    /* justify-content: space-between; */
+    /* gap: 8px; */
+}
+.setup-task--open {
+    background-color: #f3f3f3;
+}
+.setup-task__details {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    padding-left: 0.5rem;
+    /* width: 93.85%; */
+    /* gap: 1rem; */
+}
+.setup-task__details-left {
+    width: 65.03%;
+}
+.setup-task__details-right {
+    width: 32.79%;
+    display: flex;
+    justify-content: end;
+}
+.setup-task__status-icon-wrapper {
+    max-width: 2rem;
+    width: 1.5rem;
+    margin: 6px 0 0 8px;
+}
+.setup-task__status-icon {
+    width: 100%;
+}
+.setup-task__title {
+    margin: 0.5rem 0 1rem;
+}
+.setup-task--incomplete {}
+.setup-task--loading {}
+.setup-task--complete {}
 
