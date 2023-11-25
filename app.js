@@ -116,6 +116,7 @@ const c = className => `.${className}`;
 const selector_taskItem = 'setup-task'
     , selector_taskOpen = 'setup-task--open'
     , selector_taskHeader = 'setup-task__header'
+    , selector_taskTitle = 'setup-task__title'
     , selector_tasksContainer = 'setup-guide__body'
     ;
 
@@ -284,7 +285,7 @@ const createTaskItem = details => {
     // Collapsible tasks
     $(c(selector_tasksContainer)).onclick(function(e) {
         if (
-            !jqWrapper.isChildOf(e.target, c(selector_taskHeader))
+            !jqWrapper.isChildOf(e.target, c(selector_taskTitle))
             // If the setup-task clicked on is already opened, exit
         )
             return;
