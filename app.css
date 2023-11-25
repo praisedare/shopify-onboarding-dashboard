@@ -100,10 +100,11 @@ a:hover {
 .text-gray-300 { color: #303030; }
 
 .btn {
-    border-radius: 6px;
+    border-radius: 0.5625rem;
     padding: 6px 12px;
     font-size: 1em;
     background-color: unset;
+    position: relative;
 }
 .btn:focus-visible {
     outline: 2px solid #005BD3;
@@ -111,6 +112,8 @@ a:hover {
 }
 .btn-light {
     background-color: #fff;
+    border: 1px solid #0000001A;
+    box-shadow: 0px -1px 0px 0px #B5B5B5 inset;
 }
 .btn-light:hover {
     background-color: #f7f7f7;
@@ -120,6 +123,34 @@ a:hover {
 }
 .btn-light:hover {
     background-color: #e2e2e2;
+}
+.btn-dark {
+    color: #F6F3F6;
+    background-color: #404040;
+    /* border: 1.5px solid #FFFFFF33; */
+    border-bottom: 0;
+    /* box-shadow: 0px 0px 0px 1.5px #333333, */
+    /*             0px 1px 0px 1.5px #333333, */
+    /*             0px 2px 0px 0px #000000; */
+}
+/* .btn-dark:hover { */
+/*     color: rgb(227, 227, 227); */
+/*     background-color: #2a2a2a; */
+/*     box-shadow: 0px 0px 0px 1.5px #333333, */
+/*                 0px 1px 0px 1.5px #333333, */
+/*                 0px 2px 0px 0px #000000; */
+/* } */
+.btn-dark::before {
+	background: linear-gradient(180deg,#ffffff12 80%,#ffffff26);
+	border-radius: .5625rem;
+	bottom: 0;
+	box-shadow: 0rem 0.125rem 0rem 0rem #fff3 inset,0.125rem 0rem 0rem 0rem #fff3 inset,-0.125rem 0rem 0rem 0rem #fff3 inset,0rem -0.0625rem 0rem 0.0625rem #000 inset,0rem 0.0625rem 0rem 0rem #000 inset;
+	content: "";
+	left: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
+	transition: opacity 75ms cubic-bezier(.19,.91,.38,1);
 }
 
 .m-0 { margin: 0; }
@@ -337,7 +368,14 @@ a:hover {
     padding: 5px;
     background-color: #36FBA1;
     color: #000000AA;
-    height: 100%;
+    width: 2rem;
+    height: 2rem;
+}
+@media screen and (min-width: 480px) {
+    .header__shop-icon {
+        height: 100%;
+        width: auto;
+    }
 }
 
 main {
