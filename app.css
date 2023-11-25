@@ -505,9 +505,7 @@ main {
 	padding: var(--setup-task-padding);
 }
 
-.setup-task:not(.setup-task--open) .setup-task__details-wrapper > *:not(.setup-task__title),
-.setup-task:not(.setup-task--open) .setup-task__right-panel
-{
+.setup-task:not(.setup-task--open) .setup-task__details {
     display: none;
 }
 

@@ -103,14 +103,78 @@ const taskStateIcons = {
  */
 const c = className => `.${className}`;
 
+const selector_taskItem = 'setup-task'
+    , selector_taskOpen = 'setup-task--open'
+    , selector_taskHeader = 'setup-task__header'
+    , selector_tasksContainer = 'setup-guide__body'
+    ;
 
+/**
+ * @typedef {object} TaskItem
+ * @property {string} title 
+ * @property {{btnType: string, text: string}[]} buttons
+ * @property {string} description
+ * @property {string} helpLink
+ * @property {string} image
+ * @property {boolean} isOpen
+ */
+
+const TaskItemProto = ({
+    /**
+     * Open the task item
+     */
+    _open() {
+        this.classList.add(selector_taskOpen)
+    },
+    __proto__: HTMLDivElement.prototype
+});
+
+/**
+ * @param {TaskItem} details
+ */
+const createTaskItem = details => {
+    /** @type {HTMLDivElement & TaskItemProto} */
+    const $taskItem = (new DOMParser).parseFromString(`
+        <div class="setup-task">
+            <div class="setup-task__left-panel">
+                <div class="setup-task__header">
+                    <div class="setup-task__status-icon-wrapper">
+                        <img class="setup-task__status-icon filter-color-medium-gray" src="https://crushingit.tech/hackathon-assets/icon-dashed-circle.svg" alt="">
+                    </div>
+                    <button class="btn setup-task__title"><h3>${details.title}</h3></button>
+                </div>
+                <div class="setup-task__details">
+                    <div class="setup-task__details-wrapper">
+                        <p class=setup-task__description>${details.description} <a href="${details.helpLink}">Learn more</a></p>
+                        <div style="display: flex; gap: 0.75rem;">
+                            ${
+                                details.buttons.map(button => (
+                                    `<button class="btn ${button.btnType}">${button.text}</button>`
+                                )).join('')
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="setup-task__right-panel">
+                <div class="setup-task__image">
+                    <img src="${details.image}" alt="" aria-hidden="true">
+                </div>
+            </div>
+        </div>
+    `, 'text/html')
+        .documentElement
+        .lastChild
+        .firstElementChild;
+
+    Object.setPrototypeOf($taskItem, TaskItemProto)
+
+    if (details.isOpen)
+        $taskItem._open();
+
+    return $taskItem;
+}
 { // Setup Tasks
-    const selector_taskItem = 'setup-task'
-        , selector_taskOpen = 'setup-task--open'
-        , selector_taskHeader = 'setup-task__header'
-        , selector_tasksContainer = 'setup-guide__body'
-        ;
-
     // Collapsible tasks
     $(c(selector_tasksContainer)).onclick(function(e) {
         if (
@@ -137,4 +201,69 @@ const c = className => `.${className}`;
         this.closest('.alert').style.display = 'none';
     })
 }
+
+{ // Populate task items
+    /** @type {TaskItem[]} */
+    const taskItems = [
+        {
+            title: 'Customize your online store',
+            description: 'Choose a theme and add your logo, colors, and images to reflect your brand.',
+            helpLink: 'https://help.shopify.com/manual/online-store/themes/customizing-themes',
+            buttons: [
+                {
+                    text: 'Customize theme',
+                    btnType: 'btn-dark',
+                }
+            ],
+            image: 'https://crushingit.tech/hackathon-assets/customise-store.png',
+            isOpen: true,
+        },
+        {
+            title: 'Add your first product',
+            description: 'Write a description, add photos, and set pricing for the products you plan to sell.',
+            helpLink: 'https://help.shopify.com/manual/products/add-update-products',
+            buttons: [
+                {
+                    text: 'Add product',
+                    btnType: 'btn-dark',
+                },
+                {
+                    text: 'Import products',
+                    btnType: 'btn-transparent',
+                }
+            ],
+            image: 'https://crushingit.tech/hackathon-assets/product.png',
+        },
+        {
+            title: 'Add a custom domain',
+            description: 'Your current domain is 222219.myshopify.com but you can add a custom domain to help customers find your online store.',
+            helpLink: 'https://help.shopify.com/manual/domains',
+            buttons: [
+                {
+                    text: 'Add domain',
+                    btnType: 'btn-dark',
+                },
+            ],
+            image: 'https://crushingit.tech/hackathon-assets/website.png',
+        },
+        {
+            title: 'Name your store',
+            description: 'Your temporary store name is currently Davii collections. The store name appears in your admin and your online store.',
+            helpLink: 'https://help.shopify.com/manual/intro-to-shopify/initial-setup/setup-business-settings#set-or-change-your-online-store-name-and-legal-business-name',
+            buttons: [
+                {
+                    text: 'Name store',
+                    btnType: 'btn-dark',
+                },
+            ],
+            image: 'https://crushingit.tech/hackathon-assets/name-store.png',
+        },
+    ]
+
+    const $tasksContainer = $('.setup-guide__body')[0]
+    taskItems.forEach(taskItem => {
+        $tasksContainer.append(createTaskItem(taskItem))
+    })
+}
+
 
