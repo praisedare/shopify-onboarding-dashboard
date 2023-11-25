@@ -152,11 +152,14 @@ const TaskItemProto = ({
      * @type {Set<Function>}
      */
     __completeListeners: new Set,
-    addCompleteHook(callback) {
-        this.__completeListeners.add(callback)
+    /**
+     * @param {(completed: boolean) => void} hook
+     */
+    addCompleteHook(hook) {
+        this.__completeListeners.add(hook)
     },
-    removeCompleteHook(callback) {
-        this.__completeListeners.remove(callback)
+    removeCompleteHook(hook) {
+        this.__completeListeners.remove(hook)
     },
 
     /**
@@ -231,7 +234,7 @@ const createTaskItem = details => {
             <div class="setup-task__left-panel">
                 <div class="setup-task__header">
                     <div class="setup-task__status-icon-wrapper">
-                        <button class="btn p-0 m-0 _js-task-btn-state-toggle">
+                        <button class="btn p-0 m-0 _js-task-btn-state-toggle" style="height: 100%;">
                             <img class="setup-task__status-icon ${TaskItemProto.taskStateIcons.incomplete.className} _js-task-state-icon" src="https://crushingit.tech/hackathon-assets/icon-dashed-circle.svg" alt="">
                         </button>
                     </div>
@@ -411,7 +414,6 @@ const createTaskItem = details => {
         const taskItem = createTaskItem(taskItemDfn)
         $tasksContainer.append(taskItem)
         taskItem.addCompleteHook(c => {
-            console.log(c)
             if (c)
                 completedTasksCount++
             else
@@ -421,8 +423,8 @@ const createTaskItem = details => {
     })
 
     function updateCompletionProgressBar() {
-        console.log('h')
         $('._js-tasks-complete-count')[0].innerText = completedTasksCount
+        $('.progress-bar-slider')[0].style.width = `${completedTasksCount / taskItemsDefinitions.length * 100}%`
     }
 }
 
