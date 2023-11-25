@@ -129,11 +129,35 @@ const selector_taskItem = 'setup-task'
  */
 
 const TaskItemProto = ({
+    __proto__: HTMLDivElement.prototype,
+
     isOpen: false,
     /**
      * Represents the completion state of the task item
      */
-    complete: false,
+    __complete: false,
+
+    get complete() {
+        return this.__complete
+    },
+    /**
+     * @param {boolean} complete
+     */
+    set complete(complete) {
+        this.__complete = complete;
+        [...this.__completeListeners].forEach(f => f(complete))
+    },
+
+    /**
+     * @type {Set<Function>}
+     */
+    __completeListeners: new Set,
+    addCompleteHook(callback) {
+        this.__completeListeners.add(callback)
+    },
+    removeCompleteHook(callback) {
+        this.__completeListeners.remove(callback)
+    },
 
     /**
      * Open the task item
@@ -142,8 +166,6 @@ const TaskItemProto = ({
         this.isOpen = !this.isOpen;
         this.classList.toggle(selector_taskOpen);
     },
-
-    __proto__: HTMLDivElement.prototype,
 
     get selector_taskBtn() {
         return '_js-task-btn-state-toggle'
@@ -197,12 +219,6 @@ const TaskItemProto = ({
             }
         };
     },
-    /**
-     * The CSS class that styles an
-     */
-    get taskStateIconImcompleteClass() {
-        return ''
-    }
 });
 
 /**
@@ -248,6 +264,7 @@ const createTaskItem = details => {
     Object.setPrototypeOf($taskItem, TaskItemProto)
 
     { // Bootstrapping of taskItem component
+        $taskItem.__completeListeners = new Set
         if (details.isOpen)
             $taskItem._collapseToggle();
 
@@ -312,17 +329,10 @@ const createTaskItem = details => {
         img.src = i.src
         i.style = 'position: fixed; bottom: 9000px;'
     })
-}
 
-{ // Alerts
-    $('.alert .alert__close').onclick(function() {
-        this.closest('.alert').style.display = 'none';
-    })
-}
-
-{ // Populate task items
+    // Populate task items
     /** @type {TaskItem[]} */
-    const taskItems = [
+    const taskItemsDefinitions = [
         {
             title: 'Customize your online store',
             description: 'Choose a theme and add your logo, colors, and images to reflect your brand.',
@@ -376,11 +386,46 @@ const createTaskItem = details => {
             ],
             image: 'https://crushingit.tech/hackathon-assets/name-store.png',
         },
+        {
+            title: 'Setup a payment provider',
+            description: 'Choose a payment provider to start accepting payments. You’ll need to create an account with the payment provider and set it up with your Shopify store.',
+            helpLink: 'https://help.shopify.com/en/manual/payments',
+            buttons: [
+                {
+                    text: 'Setup payment',
+                    btnType: 'btn-dark',
+                },
+            ],
+            image: 'https://crushingit.tech/hackathon-assets/payment.png',
+        },
     ]
 
     const $tasksContainer = $('.setup-guide__body')[0]
-    taskItems.forEach(taskItem => {
-        $tasksContainer.append(createTaskItem(taskItem))
+
+    let completedTasksCount = 0
+
+    taskItemsDefinitions.forEach(taskItemDfn => {
+        const taskItem = createTaskItem(taskItemDfn)
+        $tasksContainer.append(taskItem)
+        taskItem.addCompleteHook(c => {
+            console.log(c)
+            if (c)
+                completedTasksCount++
+            else
+                completedTasksCount--
+            updateCompletionProgressBar()
+        })
+    })
+
+    function updateCompletionProgressBar() {
+        console.log('h')
+        $('._js-tasks-complete-count')[0].innerText = completedTasksCount
+    }
+}
+
+{ // Alerts
+    $('.alert .alert__close').onclick(function() {
+        this.closest('.alert').style.display = 'none';
     })
 }
 
