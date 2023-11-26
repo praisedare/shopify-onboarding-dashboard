@@ -643,6 +643,9 @@ main {
 .setup-task__status-icon {
     width: 100%;
 }
+svg.setup-task__status-icon--incomplete:hover circle {
+    stroke-dasharray: none;
+}
 
 .setup-task__title {
     height: var(--setup-task-header-height);
