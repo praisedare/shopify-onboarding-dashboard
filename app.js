@@ -35,7 +35,7 @@ const jqWrapper = (() => {
      * @param {string} eventType
      * @param {(e: Event) => void} callback
      */
-    jqWrapper.prototype.on = function(eventType, callback) {
+    jqWrapper.prototype.on = function(eventType, callback, options = {}) {
         for (let elem of this._elems)
             elem.addEventListener(eventType, callback.bind(elem));
     }
@@ -59,6 +59,8 @@ const jqWrapper = (() => {
             ? parent.matches(potentialParent)
             : parent == potentialParent
 
+        if (!confusedKid)
+            return false
         do {
             var parent = confusedKid.parentElement
             if (isParent(parent))
@@ -471,6 +473,12 @@ const createTaskItem = details => {
     const PopupMenuProto = ({
         __proto__: HTMLDivElement.prototype,
         _isOpen: false,
+        /** Constructor function */
+        _initialize() {
+            // this.addEventlistener('focusl
+            /** @type {PopupMenu} */
+            const menu = this
+        },
         toggle() {
             if (this._isOpen)
                 this.close()
@@ -478,14 +486,31 @@ const createTaskItem = details => {
                 this.open()
         },
         open() {
+            if (this._isOpen)
+                return;
             this._isOpen = true;
             this.classList.remove(menuCloseClass)
             this.classList.add(...fullMenuOpenClass.split(' '))
+
+            const closeIfNotChild = el => !jqWrapper.isChildOf(el, this) && this.close()
+            this._clickWatcher = (e) => closeIfNotChild(e.target)
+            this._focusWatcher = (e) => closeIfNotChild(e.relatedTarget) && console.log('focus watcher running')
+
+            setTimeout(() => {
+                window.addEventListener('focusout', this._focusWatcher, {capture: true})
+                window.addEventListener('click', this._clickWatcher)
+            })
         },
         close() {
+            if (!this._isOpen)
+                return;
             this._isOpen = false;
+
             this.classList.remove(...fullMenuOpenClass.split(' '))
             this.classList.add(menuCloseClass)
+
+            window.removeEventListener('focusout', this._focusWatcher)
+            window.removeEventListener('click', this._clickWatcher)
         },
     });
 
@@ -495,12 +520,24 @@ const createTaskItem = details => {
 
     $(c(menuClass)).each(e => {
         Object.setPrototypeOf(e, PopupMenuProto)
-        console.log('e', e)
+        /** @type {PopupMenu} */
+        const menu = e
+        menu._initialize();
     })
 
-    $('[data-popup-menu]').onclick(function() {
+    /**
+     * GEt the popup menu for a popup-menu trigger
+     */
+    const getPopupMenu = trigger => {
         /** @type {PopupMenu} */
-        const popupMenu = $(this.dataset.popupMenu)._elems[0];
+        const popupMenu = $(trigger.dataset.popupMenu)._elems[0];
+        return popupMenu
+    }
+
+    const $popupMenuTriggers = $('[data-popup-menu]');
+    $popupMenuTriggers.onclick(function() {
+        /** @type {PopupMenu} */
+        const popupMenu = getPopupMenu(this);
         // Close other menus
         $(c(menuOpenClass)).each(el => {
             if (el == popupMenu)
@@ -510,7 +547,13 @@ const createTaskItem = details => {
             menu.close()
         });
         popupMenu.toggle();
-    })
+    });
+    // $popupMenuTriggers.on('blur', function(e) {
+    //     /** @type {PopupMenu} */
+    //     const popupMenu = getPopupMenu(this);
+    //     if (!jqWrapper.isChildOf(e.relatedTarget, popupMenu))
+    //         popupMenu.close();
+    // })
 }
 
 { // Store menu
@@ -534,7 +577,7 @@ const createTaskItem = details => {
             {
                 content: `
                     <div class="relative">
-                        <button class="header__shop-badge btn justify-start" data-popup-menu="#store-menu" style="flex-direction: row-reverse; width: 100%;" tabindex="-1">
+                        <button class="header__shop-badge btn justify-start" style="flex-direction: row-reverse; width: 100%;" tabindex="-1">
                             <span class="header__shop-name">Davii Collections</span>
                             <span class="header__shop-icon flex flex-center">DC</span>
                         </button>
