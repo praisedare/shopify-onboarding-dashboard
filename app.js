@@ -279,7 +279,9 @@ const createTaskItem = details => {
             <div class="setup-task__left-panel">
                 <div class="setup-task__header">
                     <div class="setup-task__status-icon-wrapper">
-                        <button class="btn p-0 m-0 _js-task-btn-state-toggle" style="width: 24px; height: 24px;">
+                        <button class="btn p-0 m-0 _js-task-btn-state-toggle" style="width: 24px; height: 24px;"
+                            aria-label="Mark ${ details.title } as done"
+                        >
                             ${TaskItemProto.taskStateIcons.incomplete.src}
                         </button>
                     </div>
@@ -287,7 +289,7 @@ const createTaskItem = details => {
                 </div>
                 <div class="setup-task__details">
                     <div class="setup-task__details-wrapper">
-                        <p class="setup-task__description pr-2">${details.description} <a href="${details.helpLink}">Learn more</a></p>
+                        <p class="setup-task__description pr-2">${details.description} <a href="${details.helpLink}" aria-label="Learn more about how to ${details.title}">Learn more</a></p>
                         <div style="display: flex; gap: 0.75rem;">
                             ${
                                 details.buttons.map(button => (
@@ -372,7 +374,7 @@ const createTaskItem = details => {
         },
         {
             title: 'Add your first product',
-            description: 'Write a description, add photos, and set pricing for the products you plan to sell.',
+            toggleBtnAriaDescription: 'Mark Add your first product as not done',
             helpLink: 'https://help.shopify.com/manual/products/add-update-products',
             buttons: [
                 {
@@ -388,7 +390,7 @@ const createTaskItem = details => {
         },
         {
             title: 'Add a custom domain',
-            description: 'Your current domain is 222219.myshopify.com but you can add a custom domain to help customers find your online store.',
+            toggleBtnAriaDescription: 'Mark Add a custom domain as done',
             helpLink: 'https://help.shopify.com/manual/domains',
             buttons: [
                 {

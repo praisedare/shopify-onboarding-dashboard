@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8" />
+    <meta name="description" content="A Shopify Merchant Onboarding Dashboard created by Praise Dare as his entry into the Crushing Tech Hackathon." />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Shopify Admin</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -14,7 +15,7 @@
 <body>
     <header>
         <div class="header__logo-container">
-            <a href="https://shopify.com">
+            <a href="https://shopify.com" aria-label="Go to shopify homepage">
                 <svg class="header__logo-large" fill="none" height="32" viewBox="0 0 105 30" width="105" xmlns="http://www.w3.org/2000/svg">
                     <g fill="#fff">
                         <path d="m36.2171 16.6517c-.8931-.4953-1.3631-.8962-1.3631-1.4622 0-.7311.6345-1.1792 1.6452-1.1792 1.1751 0 2.2092.4953 2.2092.4953l.8226-2.5235s-.7521-.5896-2.9848-.5896c-3.1024 0-5.2646 1.7924-5.2646 4.2922 0 1.4151 1.0106 2.4999 2.3502 3.2782 1.0812.6132 1.4572 1.0612 1.4572 1.698 0 .6839-.5406 1.2264-1.5512 1.2264-1.5041 0-2.9143-.7783-2.9143-.7783l-.8696 2.5235s1.3162.8725 3.5019.8725c3.1963 0 5.4761-1.5801 5.4761-4.4101.047-1.5565-1.1281-2.6414-2.5148-3.4432z" />
@@ -50,7 +51,7 @@
             </div>
         </div>
         <div class="header__user-profile-container relative">
-            <button class="header__bell-icon-wrapper btn p-0" data-popup-menu="#alerts-menu">
+            <button class="header__bell-icon-wrapper btn p-0" data-popup-menu="#alerts-menu" aria-label="Toggle notifications menu">
                 <svg class="header__bell-icon" width="20" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M7.75203 14.4239L5.3061 14.1427C3.45144 13.9295 2.92542 11.4844 4.52838 10.5274L4.5933 10.4886C5.466 9.96761 6.00045 9.02609 6.00045 8.00969V7.5C6.00045 5.01472 8.01517 3 10.5005 3C12.9857 3 15.0005 5.01472 15.0005 7.5V8.00969C15.0005 9.02609 15.5349 9.96761 16.4076 10.4886L16.4725 10.5274C18.0755 11.4844 17.5495 13.9295 15.6948 14.1427L13.152 14.435V14.8C13.152 16.2912 11.9432 17.5 10.452 17.5C8.96086 17.5 7.75203 16.2912 7.75203 14.8V14.4239ZM11.652 14.5H9.25203V14.8C9.25203 15.4627 9.78929 16 10.452 16C11.1148 16 11.652 15.4627 11.652 14.8V14.5ZM8.50045 13H12.5005L15.5235 12.6525C15.953 12.6032 16.0748 12.0369 15.7036 11.8153L15.6387 11.7766C15.5591 11.7291 15.4815 11.6793 15.4057 11.6273C15.2506 11.521 15.1036 11.4055 14.9651 11.2818C14.9405 11.2598 14.9162 11.2377 14.8922 11.2152C14.0144 10.395 13.5005 9.23833 13.5005 8.00969V7.5C13.5005 5.84315 12.1573 4.5 10.5005 4.5C8.8436 4.5 7.50045 5.84315 7.50045 7.5V8.00969C7.50045 9.23833 6.98651 10.395 6.10871 11.2152C6.08469 11.2377 6.06039 11.2598 6.03583 11.2818C5.89734 11.4055 5.75029 11.521 5.59523 11.6273C5.51945 11.6793 5.44176 11.7291 5.36222 11.7766L5.29729 11.8153C4.9261 12.0369 5.0479 12.6032 5.47739 12.6525L8.50045 13Z" fill="#e3e3e3"/>
                 </svg>
@@ -81,7 +82,7 @@
                 </div>
             </div>
 
-            <button class="header__shop-badge btn" data-popup-menu="#store-menu">
+            <button class="header__shop-badge btn" data-popup-menu="#store-menu" aria-label="Toggle store menu. The store menu contains useful navigation and support links, as well as profile/logout buttons">
                 <span class="header__shop-name">Davii Collections</span>
                 <span class="header__shop-icon flex flex-center">DC</span>
             </button>
@@ -98,7 +99,7 @@
                 <span class="m-0">Extend your trial for $1/month for 3 months on select plans.</span>
                 <a href="https://shopify.com/pricing"><button class="alert__action btn btn-light" tabindex="-1">Select a plan</button></a>
             </div>
-            <button class="alert__close btn p-0">
+            <button class="alert__close btn p-0" aria-label="Dismiss trial extension message">
                 <svg width="20" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M14.4697 15.0303C14.7626 15.3232 15.2374 15.3232 15.5303 15.0303C15.8232 14.7374 15.8232 14.2626 15.5303 13.9697L11.5607 10L15.5303 6.03033C15.8232 5.73744 15.8232 5.26256 15.5303 4.96967C15.2374 4.67678 14.7626 4.67678 14.4697 4.96967L10.5 8.93934L6.53033 4.96967C6.23744 4.67678 5.76256 4.67678 5.46967 4.96967C5.17678 5.26256 5.17678 5.73744 5.46967 6.03033L9.43934 10L5.46967 13.9697C5.17678 14.2626 5.17678 14.7374 5.46967 15.0303C5.76256 15.3232 6.23744 15.3232 6.53033 15.0303L10.5 11.0607L14.4697 15.0303Z" fill="#fff"/>
                 </svg>
@@ -119,7 +120,7 @@
                     </div>
                 </div>
                 <div class="self-start">
-                    <button class="btn bg-transparent setup-guide__collapse-btn p-0" data-opened="1">
+                    <button class="btn bg-transparent setup-guide__collapse-btn p-0" data-opened="1" aria-label="Collapse setup guides">
                         <svg class="setup-guide__collapse-icon" style="transform: rotate(180deg); transition: transform 350ms;"  width="24" height="24" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M6.21967 8.46967C6.51256 8.17678 6.98744 8.17678 7.28033 8.46967L10.75 11.9393L14.2197 8.46967C14.5126 8.17678 14.9874 8.17678 15.2803 8.46967C15.5732 8.76256 15.5732 9.23744 15.2803 9.53033L11.2803 13.5303C10.9874 13.8232 10.5126 13.8232 10.2197 13.5303L6.21967 9.53033C5.92678 9.23744 5.92678 8.76256 6.21967 8.46967Z" fill="#4a4a4a"/>
                         </svg>
