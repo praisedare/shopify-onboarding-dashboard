@@ -200,7 +200,7 @@ const TaskItemProto = ({
      * The button containing the task's state icon
      * @type {HTMLButtonElement}
      */
-    get elem_taskBtn() {
+    get elem_taskStateIconBtn() {
         return this.querySelector(c(this.selector_taskBtn));
     },
 
@@ -215,16 +215,31 @@ const TaskItemProto = ({
     get taskStateIcons() {
         return {
             incomplete: {
-                src: 'https://crushingit.tech/hackathon-assets/icon-dashed-circle.svg',
-                className: 'filter-color-medium-gray',
+                src: `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 32 32" fill="none">
+                        <circle cx="16" cy="16" r="12" stroke="#8a8a8a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4 6" />
+                    </svg>
+                `,
             },
             loading: {
-                src: 'https://crushingit.tech/hackathon-assets/icon-spinner.svg',
-                className: 'filter-color-medium-gray animation__spin',
+                src: `
+                    <svg class="animation__spin" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 28 28" fill="none">
+                        <path d="M26 14C26 16.3734 25.2962 18.6935 23.9776 20.6668C22.6591 22.6402 20.7849 24.1783 18.5922 25.0866C16.3995 25.9948 13.9867 26.2324 11.6589 25.7694C9.33114 25.3064 7.19295 24.1635 5.51472 22.4853C3.83649 20.8071 2.6936 18.6689 2.23058 16.3411C1.76755 14.0133 2.00519 11.6005 2.91345 9.4078C3.8217 7.21509 5.35977 5.34094 7.33316 4.02236C9.30655 2.70379 11.6266 2 14 2"
+                          stroke="#1C181D"
+                          stroke-width="2.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                `,
             },
             complete: {
-                src: 'https://crushingit.tech/hackathon-assets/icon-checkmark-circle.svg',
-                className: '',
+                src: `
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="10" fill="#1C181D"></circle>
+                        <path d="M17.2738 8.52629C17.6643 8.91682 17.6643 9.54998 17.2738 9.94051L11.4405 15.7738C11.05 16.1644 10.4168 16.1644 10.0263 15.7738L7.3596 13.1072C6.96908 12.7166 6.96908 12.0835 7.3596 11.693C7.75013 11.3024 8.38329 11.3024 8.77382 11.693L10.7334 13.6525L15.8596 8.52629C16.2501 8.13577 16.8833 8.13577 17.2738 8.52629Z" fill="#fff" />
+                    </svg>
+                `,
             }
         };
     },
@@ -241,7 +256,7 @@ const createTaskItem = details => {
                 <div class="setup-task__header">
                     <div class="setup-task__status-icon-wrapper">
                         <button class="btn p-0 m-0 _js-task-btn-state-toggle" style="height: 100%;">
-                            <img class="setup-task__status-icon ${TaskItemProto.taskStateIcons.incomplete.className} _js-task-state-icon" src="https://crushingit.tech/hackathon-assets/icon-dashed-circle.svg" alt="">
+                            ${TaskItemProto.taskStateIcons.incomplete.src}
                         </button>
                     </div>
                     <button class="btn setup-task__title"><h3>${details.title}</h3></button>
@@ -278,7 +293,7 @@ const createTaskItem = details => {
             $taskItem._collapseToggle();
 
         // Switch task completion state
-        $taskItem.elem_taskBtn.onclick = async function() {
+        $taskItem.elem_taskStateIconBtn.onclick = async function() {
             if (this.__stateChanging)
                 return
 
@@ -287,31 +302,18 @@ const createTaskItem = details => {
             {
                 const newCompletionState = !$taskItem.complete
 
-                const initialStateIcon = $taskItem.taskStateIcons[
-                    $taskItem.complete
-                        ? 'complete'
-                        : 'incomplete'
-                ]
-
                 const currentStateIcon = $taskItem.taskStateIcons[
                     newCompletionState
                         ? 'complete'
                         : 'incomplete'
                 ];
 
-                const $stateIcon = $($taskItem.elem_taskStateIcon)
-
                 // loading
-                $stateIcon.toggleClass(initialStateIcon.className)
-                $stateIcon.toggleClass($taskItem.taskStateIcons.loading.className)
-                $taskItem.elem_taskStateIcon.src = $taskItem.taskStateIcons.loading.src
+                $taskItem.elem_taskStateIconBtn.innerHTML = $taskItem.taskStateIcons.loading.src
                 await utils.promiseTimeout(1.5e3)
 
                 // complete/uncomplete
-                $stateIcon.toggleClass($taskItem.taskStateIcons.loading.className)
-                $stateIcon.toggleClass(currentStateIcon.className)
-                $taskItem.elem_taskStateIcon.src = currentStateIcon.src
-                // await utils.promiseTimeout(250)
+                $taskItem.elem_taskStateIconBtn.innerHTML = currentStateIcon.src
 
                 // and finally change completion state
                 $taskItem.complete = newCompletionState
