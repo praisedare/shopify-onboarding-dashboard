@@ -472,6 +472,7 @@ const createTaskItem = details => {
      * @property {string|null} name An optional name (text) for the menu item.
      * @property {string|null} content If no name is provided, then manually provide the content with this property
      * @property {string|null} className Optional classnames to add to the dropdown-menu-item
+     * @property {boolean} focusable Should the item be focusable with keyboard? Choosing no will also disable the link
      */
 
     /**
@@ -496,6 +497,7 @@ const createTaskItem = details => {
                         </svg>
                     </div>
                 `,
+                focusable: false,
                 className: 'p-0 m-0',
             },
             {
@@ -509,12 +511,36 @@ const createTaskItem = details => {
                 `
             },
         ],
+        [
+            ...['Help Center', 'Changelog', 'Community forums', 'Hire a Shopify Partner', 'Keyboard Shortcuts']
+                .map(name => ({name}))
+        ],
+        [
+            {
+                content: `
+                    <p class="p-0 m-0 text-gray-300" style="font-weight: 500;">David Micheal</p>
+                    <p class="p-0 m-0 text-secondary">davidmicheal@gmail.com</p>
+                `,
+                focusable: false,
+            },
+            {name: 'Manage Account'},
+            {name: 'Logout'},
+        ]
     ];
 
     $('.store-menu')._elems[0].innerHTML = menuItems.map(itemGroup => {
-        const content = itemGroup.map(item => (
-            `<a class="dropdown-menu-item ${item.className}" href="https://admin.shopify.com">${ item.name ?? item.content }</a>`
-        )).join('')
+        const content = itemGroup.map(item => {
+            const focusable = ![null, false].includes(item.focusable);
+            return `
+                <a
+                    class="dropdown-menu-item ${item.className ?? ''}"
+                    href="${focusable ? "https://admin.shopify.com" : 'javascript://' }"
+                    ${!focusable ? 'tabindex="-1"' : ''}
+                >
+                    ${ item.name ?? item.content }
+                </a>
+            `
+        }).join('')
         return `<li class="store-menu__menu-section"><ul class="p-0 m-0 flex gap-1 flex-column">${content}</ul></li>`
     }).join('')
 }

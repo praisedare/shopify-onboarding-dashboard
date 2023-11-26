@@ -464,7 +464,7 @@ a:hover {
     width: 100%;
     color: var(--gray-300);
     font-weight: 400;
-    height: 2rem;
+    min-height: 2rem;
     padding: 6px;
 }
 .dropdown-menu-item:hover {
