@@ -569,6 +569,10 @@ main {
     --setup-task-padding: 10px;
     --setup-task-header-height: calc(var(--setup-task-icon-width) + var(--setup-task-padding) * 2);
 }
+/* Add some spacing so that the outline can be visible */
+.setup-task:first-of-type {
+    margin-top: 2px;
+}
 .setup-task--open {
     background-color: #f3f3f3;
 }
