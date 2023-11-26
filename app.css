@@ -167,6 +167,9 @@ a:hover {
     /*             0px 1px 0px 1.5px #333333, */
     /*             0px 2px 0px 0px #000000; */
 }
+.btn-dark:active::before {
+	box-shadow: 0rem 3px 5px 0rem #000000ed inset, 0.125rem 0rem 0rem 0rem #adadad33 inset, -0.125rem 0rem 0rem 0rem #fff3 inset, 0rem -0.0625rem 0rem 0.0625rem #000 inset, 0rem 0.0625rem 0rem 0rem #000 inset;
+}
 .btn-dark:hover {
     color: rgb(227, 227, 227);
     background-color: #2a2a2a;
@@ -540,6 +543,7 @@ main {
 .setup-guide__body--open {
     transition-timing-function: ease-in;
     max-height: 600px;
+    margin-top: 1rem;
 }
 
 .setup-guide__collapse-btn {
