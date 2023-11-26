@@ -455,9 +455,12 @@ const createTaskItem = details => {
      */
     function expandNextTask(c, taskItem) {
         /** @type {TaskItem|null} */
-        const nextTaskItem = taskItem.nextElementSibling
+        let nextTaskItem = taskItem.nextElementSibling
         if (nextTaskItem?.__proto__ !== taskItem.__proto__ || !c)
             return
+
+        while (nextTaskItem.complete)
+            nextTaskItem = nextTaskItem.nextElementSibling
 
         nextTaskItem.expand()
     }
