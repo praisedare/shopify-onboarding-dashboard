@@ -125,7 +125,7 @@ const selector_taskItem = 'setup-task'
     ;
 
 /**
- * @typedef {object} TaskItem
+ * @typedef {object} TaskItemData
  * @property {string} title 
  * @property {{btnType: string, text: string}[]} buttons
  * @property {string} description
@@ -151,11 +151,14 @@ const TaskItemProto = ({
      */
     set complete(complete) {
         this.__complete = complete;
-        [...this.__completeListeners].forEach(f => f(complete))
+        [...this.__completeListeners].forEach(f => f(complete, this))
     },
 
     /**
-     * @type {Set<Function>}
+     * @typedef {(complete: boolean, taskItem: TaskItem) => void} TaskItemCompletionHook
+     */
+    /**
+     * @type {Set<TaskItemCompletionHook>}
      */
     __completeListeners: new Set,
     /**
@@ -168,9 +171,26 @@ const TaskItemProto = ({
         this.__completeListeners.remove(hook)
     },
 
-    /**
-     * Open the task item
-     */
+    /** Expand the DOM task item */
+    expand() {
+        /** @type {TaskItem} */
+        var self = this
+        if (self.isOpen)
+            return
+        self.isOpen = true
+        // close the other open task
+        $(c(selector_taskOpen)).each(el => el._collapseToggle())
+        self.classList.add(selector_taskOpen);
+    },
+
+    /** Collapse the DOM task item */
+    close() {
+        /** @type {TaskItem} */
+        var self = this
+        self.isOpen = false
+        self.classList.remove(selector_taskOpen);
+    },
+
     _collapseToggle() {
         this.isOpen = !this.isOpen;
         this.classList.toggle(selector_taskOpen);
@@ -246,10 +266,14 @@ const TaskItemProto = ({
 });
 
 /**
- * @param {TaskItem} details
+ * @typedef {typeof HTMLDivElement.prototype & typeof TaskItemProto} TaskItem
+ */
+
+/**
+ * @param {TaskItemData} details
  */
 const createTaskItem = details => {
-    /** @type {HTMLDivElement & TaskItemProto} */
+    /** @type {TaskItem} */
     const $taskItem = (new DOMParser).parseFromString(`
         <div class="setup-task">
             <div class="setup-task__left-panel">
@@ -290,7 +314,7 @@ const createTaskItem = details => {
     { // Bootstrapping of taskItem component
         $taskItem.__completeListeners = new Set
         if (details.isOpen)
-            $taskItem._collapseToggle();
+            $taskItem.expand();
 
         // Switch task completion state
         $taskItem.elem_taskStateIconBtn.onclick = async function() {
@@ -323,14 +347,7 @@ const createTaskItem = details => {
         }
 
         // Collapse
-        $taskItem.elem_taskTitleBtn.onclick = () => {
-            if ($taskItem.isOpen)
-                return
-            // close the other open task
-            $(c(selector_taskOpen)).each(el => el._collapseToggle())
-            // open this one
-            $taskItem._collapseToggle()
-        }
+        $taskItem.elem_taskTitleBtn.onclick = () => $taskItem.expand()
     }
 
     return $taskItem;
@@ -338,7 +355,7 @@ const createTaskItem = details => {
 
 { // Setup Tasks
     // Populate task items
-    /** @type {TaskItem[]} */
+    /** @type {TaskItemData[]} */
     const taskItemsDefinitions = [
         {
             title: 'Customize your online store',
@@ -415,6 +432,7 @@ const createTaskItem = details => {
         const taskItem = createTaskItem(taskItemDfn)
         $tasksContainer.append(taskItem)
         taskItem.addCompleteHook(setCompletedTasksCount)
+        taskItem.addCompleteHook(expandNextTask)
     })
 
     function updateCompletionProgressBar() {
@@ -422,7 +440,7 @@ const createTaskItem = details => {
         $('.progress-bar-slider')[0].style.width = `${completedTasksCount / taskItemsDefinitions.length * 100}%`
     }
     /**
-     * @param {boolean} c
+     * @type {TaskItemCompletionHook}
      */
     function setCompletedTasksCount(c) {
         if (c)
@@ -430,6 +448,18 @@ const createTaskItem = details => {
         else
             completedTasksCount--
         updateCompletionProgressBar()
+    }
+
+    /**
+     * @type {TaskItemCompletionHook}
+     */
+    function expandNextTask(c, taskItem) {
+        /** @type {TaskItem|null} */
+        const nextTaskItem = taskItem.nextElementSibling
+        if (nextTaskItem?.__proto__ !== taskItem.__proto__ || !c)
+            return
+
+        nextTaskItem.expand()
     }
 }
 

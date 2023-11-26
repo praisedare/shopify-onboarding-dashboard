@@ -361,9 +361,6 @@ a:hover {
         align-items: center;
         border-radius: 8px;
     }
-    .header__shop-badge {
-        padding: 2px;
-    }
 }
 
 .header__bell-icon-wrapper {
@@ -391,10 +388,12 @@ a:hover {
 
 .header__shop-badge {
     color: var(--text-light-gray);
+    padding: 0;
 }
 @media screen and (min-width: 480px) {
     .header__shop-badge {
         background-color: var(--color-translucent-gray);
+        padding: 2px;
     }
 }
 
