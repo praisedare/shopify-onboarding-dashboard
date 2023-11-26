@@ -224,6 +224,12 @@ a:hover {
 .py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
 .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
 
+.pt-0 { padding-top: 0; }
+.pt-1 { padding-top: 0.25rem; }
+.pt-2 { padding-top: 0.5rem; }
+.pt-3 { padding-top: 0.75rem; }
+.pt-4 { padding-top: 1rem; }
+
 .header__logo-container,
 .header__search-bar-container,
 .header__user-profile-container {
@@ -436,17 +442,28 @@ main {
     background-color: #fff;
 }
 
-.setup-guide__header {
-
+.setup-guide__body {
+    transition: 500ms;
+    transition-timing-function: ease-out;
+    overflow: hidden;
+    max-height: 0;
+}
+.setup-guide__body--open {
+    transition-timing-function: ease-in;
+    max-height: 600px;
 }
 
-.setup-guide__collapse-icon {
+.setup-guide__collapse-btn {
     --size: 2em;
     width: var(--size);
     height: var(--size);
 }
-.setup-guide__collapse-icon:hover {
+.setup-guide__collapse-btn:hover {
     background: #0000000d;
+}
+.setup-guide__collapse-icon {
+    transform: rotate(0deg);
+    transition: transform 350ms;
 }
 
 .progress-bar-track {

@@ -432,6 +432,24 @@ const createTaskItem = details => {
     }
 }
 
+{ // Collapse toggle for setup-guide__body
+    $('.setup-guide__collapse-btn').onclick(async function() {
+        /** @type {HTMLButtonElement} */
+        let btn = this
+            , icon = btn.querySelector('img')
+            , body = $('.setup-guide__body')._elems[0]
+        ;
+
+        body.classList.toggle('setup-guide__body--open')
+
+        let openState = +btn.dataset.opened
+        icon.style.transform = openState
+            ? 'rotate(180deg)'
+            : 'rotate(0deg)'
+        btn.dataset.opened = +!openState
+    });
+}
+
 { // Alerts
     $('.alert .alert__close').onclick(function() {
         this.closest('.alert').style.display = 'none';
