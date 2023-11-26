@@ -685,6 +685,10 @@ main {
     animation: fadeOutDown 350ms;
 }
 
+.animation__fadeInZoom {
+    animation: fadeInZoom 350ms;
+}
+
 @keyframes spin {
     from {
         transform: rotate(0deg);
@@ -714,11 +718,21 @@ main {
         transform: translateY(0);
         opacity: 1;
     }
-    /* 99% { */
-    /* } */
     to {
         visibility: hidden;
         transform: translateY(40px);
         opacity: 0;
     }
 }
+
+@keyframes fadeInZoom {
+    from {
+        transform: rotate(-90deg) scale(0.55);
+        opacity: 0.55;
+    }
+    to {
+        transform: rotate(0) scale(1);
+        opacity: 1;
+    }
+}
+
