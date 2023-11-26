@@ -333,7 +333,8 @@ const createTaskItem = details => {
     Object.values(TaskItemProto.taskStateIcons).forEach(i => {
         let img = new Image
         img.src = i.src
-        i.style = 'position: fixed; bottom: 9000px;'
+        img.style = 'position: fixed; width: 1px;'
+        document.body.append(img)
     })
 
     // Populate task items
@@ -456,4 +457,12 @@ const createTaskItem = details => {
     })
 }
 
+{ // Popup Menus
+
+    $('[data-popup-menu]').onclick(function() {
+        const popupMenu = $(this.dataset.popupMenu);
+        popupMenu._elems[0].style.display = 'block';
+        popupMenu.toggleClass('popup-menu--open animation__fadeInUp animation__fadeOutDown');
+    })
+}
 

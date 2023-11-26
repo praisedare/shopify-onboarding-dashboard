@@ -1,5 +1,5 @@
 * {
-    box-sizing: border-box !important;
+    box-sizing: border-box;
 }
 
 html {
@@ -409,6 +409,11 @@ a:hover {
     width: 92vw;
     background-color: #fff;
     border-radius: 14px;
+    visibility: hidden;
+}
+
+.popup-menu--open {
+    visibility: visible;
 }
 
 .alert-popup__body {
@@ -626,6 +631,14 @@ main {
     animation: spin 1s infinite linear;
 }
 
+.animation__fadeInUp {
+    animation: fadeInUp 350ms;
+}
+
+.animation__fadeOutDown {
+    animation: fadeOutDown 350ms;
+}
+
 @keyframes spin {
     from {
         transform: rotate(0deg);
@@ -635,3 +648,31 @@ main {
     }
 }
 
+@keyframes fadeInUp {
+    from {
+        visibility: visible;
+        transform: translateY(40px);
+        opacity: 0;
+    }
+
+    to {
+        visibility: hidden;
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOutDown {
+    from {
+        visibility: visible;
+        transform: translateY(0);
+        opacity: 1;
+    }
+    /* 99% { */
+    /* } */
+    to {
+        visibility: hidden;
+        transform: translateY(40px);
+        opacity: 0;
+    }
+}
