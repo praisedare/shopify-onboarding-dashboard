@@ -375,6 +375,7 @@ const createTaskItem = details => {
         {
             title: 'Add your first product',
             toggleBtnAriaDescription: 'Mark Add your first product as not done',
+            description: 'Your current domain is 222219.myshopify.com but you can add a custom domain to help customers find your online store.',
             helpLink: 'https://help.shopify.com/manual/products/add-update-products',
             buttons: [
                 {
@@ -391,6 +392,7 @@ const createTaskItem = details => {
         {
             title: 'Add a custom domain',
             toggleBtnAriaDescription: 'Mark Add a custom domain as done',
+            description: 'Your current domain is 222219.myshopify.com but you can add a custom domain to help customers find your online store.',
             helpLink: 'https://help.shopify.com/manual/domains',
             buttons: [
                 {
