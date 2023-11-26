@@ -337,14 +337,6 @@ const createTaskItem = details => {
 }
 
 { // Setup Tasks
-    // Preload all the task state icons for smoother animations
-    Object.values(TaskItemProto.taskStateIcons).forEach(i => {
-        let img = new Image
-        img.src = i.src
-        img.style = 'position: fixed; width: 1px;'
-        document.body.append(img)
-    })
-
     // Populate task items
     /** @type {TaskItem[]} */
     const taskItemsDefinitions = [
@@ -494,13 +486,18 @@ const createTaskItem = details => {
             this.classList.remove(menuCloseClass)
             this.classList.add(...fullMenuOpenClass.split(' '))
 
-            const closeIfNotChild = el => !jqWrapper.isChildOf(el, this) && this.close()
+            const closeIfNotChild = el => {
+                const isChild = jqWrapper.isChildOf(el, this)
+                // console.log('closeIfNotChild:', 'el', el, 'this', this, 'isChild', isChild)
+                !isChild && this.close()
+            }
             this._clickWatcher = (e) => closeIfNotChild(e.target)
-            this._focusWatcher = (e) => closeIfNotChild(e.relatedTarget) && console.log('focus watcher running')
+            // e.relatedTarget is null when you click on an element that can't be focused on
+            this._focusWatcher = (e) => e.relatedTarget && closeIfNotChild(e.relatedTarget)
 
             setTimeout(() => {
-                window.addEventListener('focusout', this._focusWatcher, {capture: true})
                 window.addEventListener('click', this._clickWatcher)
+                window.addEventListener('focusout', this._focusWatcher, {capture: true})
             })
         },
         close() {
@@ -511,6 +508,7 @@ const createTaskItem = details => {
             this.classList.remove(...fullMenuOpenClass.split(' '))
             this.classList.add(menuCloseClass)
 
+            console.log('removing listeners')
             window.removeEventListener('focusout', this._focusWatcher)
             window.removeEventListener('click', this._clickWatcher)
         },
@@ -529,18 +527,17 @@ const createTaskItem = details => {
 
     /**
      * GEt the popup menu for a popup-menu trigger
+     * @return {PopupMenu}
      */
     const getPopupMenu = trigger => {
-        /** @type {PopupMenu} */
-        const popupMenu = $(trigger.dataset.popupMenu)._elems[0];
-        return popupMenu
+        return $(trigger.dataset.popupMenu)._elems[0];
     }
 
     const $popupMenuTriggers = $('[data-popup-menu]');
     $popupMenuTriggers.onclick(function() {
-        /** @type {PopupMenu} */
         const popupMenu = getPopupMenu(this);
         // Close other menus
+        // TODO: Add an `exclude` method to jqWrapper
         $(c(menuOpenClass)).each(el => {
             if (el == popupMenu)
                 return
@@ -550,12 +547,6 @@ const createTaskItem = details => {
         });
         popupMenu.toggle();
     });
-    // $popupMenuTriggers.on('blur', function(e) {
-    //     /** @type {PopupMenu} */
-    //     const popupMenu = getPopupMenu(this);
-    //     if (!jqWrapper.isChildOf(e.relatedTarget, popupMenu))
-    //         popupMenu.close();
-    // })
 }
 
 { // Store menu
@@ -627,7 +618,7 @@ const createTaskItem = details => {
                 <a
                     class="dropdown-menu-item ${item.className ?? ''}"
                     href="${focusable ? "https://admin.shopify.com" : 'javascript://' }"
-                    ${!focusable ? 'tabindex="-1"' : ''}
+                    tabindex="${!focusable ? -1 : 0}"
                 >
                     ${ item.name ?? item.content }
                 </a>
