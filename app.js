@@ -555,6 +555,8 @@ const createTaskItem = details => {
 
     /**
      * GEt the popup menu for a popup-menu trigger
+     * @param {HTMLElement} trigger An element that has a `data-popup-menu` attribute that
+     * contains the selector of it's related popup-menu
      * @return {PopupMenu}
      */
     const getPopupMenu = trigger => {
@@ -563,17 +565,7 @@ const createTaskItem = details => {
 
     const $popupMenuTriggers = $('[data-popup-menu]');
     $popupMenuTriggers.onclick(function() {
-        const popupMenu = getPopupMenu(this);
-        // Close other menus
-        // TODO: Add an `exclude` method to jqWrapper
-        $(c(menuOpenClass)).each(el => {
-            if (el == popupMenu)
-                return
-            /** @type {PopupMenu} */
-            const menu = el
-            menu.close()
-        });
-        popupMenu.toggle();
+        getPopupMenu(this).toggle();
     });
 }
 
