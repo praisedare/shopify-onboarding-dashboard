@@ -111,6 +111,9 @@ const utils = {
  * @param {string} className
  */
 const c = className => `.${className}`;
+const c2 = (joinWith = '', ...classNames) => (
+    classNames.map(c).join(joinWith)
+)
 
 const selector_taskItem = 'setup-task'
     , selector_taskOpen = 'setup-task--open'
@@ -459,15 +462,54 @@ const createTaskItem = details => {
 }
 
 { // Popup Menus
-    const menuOpenClass = 'popup-menu--open'
-        , fullMenuOpenClass = `${menuOpenClass} animation__fadeInUp animation__fadeOutDown`
+    const menuClass = 'popup-menu'
+        , menuOpenClass = 'popup-menu--open'
+        , fullMenuOpenClass = `${menuOpenClass} animation__fadeInUp`
+        , menuCloseClass = `animation__fadeOutDown`
     ;
+
+    const PopupMenuProto = ({
+        __proto__: HTMLDivElement.prototype,
+        _isOpen: false,
+        toggle() {
+            if (this._isOpen)
+                this.close()
+            else
+                this.open()
+        },
+        open() {
+            this._isOpen = true;
+            this.classList.remove(menuCloseClass)
+            this.classList.add(...fullMenuOpenClass.split(' '))
+        },
+        close() {
+            this._isOpen = false;
+            this.classList.remove(...fullMenuOpenClass.split(' '))
+            this.classList.add(menuCloseClass)
+        },
+    });
+
+    /**
+     * @typedef {typeof HTMLDivElement.prototype & typeof PopupMenuProto} PopupMenu
+     */
+
+    $(c(menuClass)).each(e => {
+        Object.setPrototypeOf(e, PopupMenuProto)
+        console.log('e', e)
+    })
+
     $('[data-popup-menu]').onclick(function() {
+        /** @type {PopupMenu} */
+        const popupMenu = $(this.dataset.popupMenu)._elems[0];
         // Close other menus
-        $(c(menuOpenClass)).toggleClass(fullMenuOpenClass)
-        const popupMenu = $(this.dataset.popupMenu);
-        popupMenu._elems[0].style.display = 'block';
-        popupMenu.toggleClass(fullMenuOpenClass);
+        $(c(menuOpenClass)).each(el => {
+            if (el == popupMenu)
+                return
+            /** @type {PopupMenu} */
+            const menu = el
+            menu.close()
+        });
+        popupMenu.toggle();
     })
 }
 
