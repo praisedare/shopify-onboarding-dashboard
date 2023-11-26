@@ -14,6 +14,7 @@ html {
     --text-light-gray: #e3e3e3;
     --text-dark-gray: #b5b5b5;
     --text-light-gray-with-opacity: #b5b5b5ef;
+    --gray-300: #303030;
     --color-translucent-gray: #ffffff14;
     --font-weight-semibold: 600;
     --color-link: #005BD3;
@@ -57,6 +58,10 @@ header {
     background-color: #1a1a1a;
     height: var(--header-height);
     line-height: 20px;
+}
+
+li {
+    list-style-type: none;
 }
 
 a:focus-visible,
@@ -104,6 +109,9 @@ a:hover {
     display: flex;
 }
 
+.flex-column {
+    flex-direction: column;
+}
 .flex-center {
     align-items: center;
     justify-content: center;
@@ -111,9 +119,10 @@ a:hover {
 .items-start { align-items: start; }
 .items-center { align-items: center; }
 .self-start { align-self: start; }
+.justify-start { justify-content: start; }
 .justify-center { justify-content: center; }
 .justify-between { justify-content: space-between; }
-.text-gray-300 { color: #303030; }
+.text-gray-300 { color: var(--gray-300); }
 .text-secondary { color: #616161; }
 
 .btn {
@@ -171,6 +180,9 @@ a:hover {
 	top: 0;
 	transition: opacity 75ms cubic-bezier(.19,.91,.38,1);
 }
+
+.gap-2 { gap: 0.5rem; }
+.gap-4 { gap: 1rem; }
 
 .m-0 { margin: 0; }
 .m-1 { margin: 0.25rem; }
@@ -304,7 +316,7 @@ a:hover {
     border: none;
     box-shadow: inset 0 0 0 1px #636363;
     border-radius: 0.5rem;
-    background-color: #303030;
+    background-color: var(--gray-300);
     color: var(--text-light-gray);
     transition: 0.15s;
 }
@@ -410,6 +422,7 @@ a:hover {
     background-color: #fff;
     border-radius: 14px;
     visibility: hidden;
+    z-index: 1;
 }
 
 .popup-menu--open {
@@ -424,6 +437,32 @@ a:hover {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.store-menu {
+}
+.store-menu__menu-section {
+    padding: 6px;
+}
+.store-menu .header__shop-badge,
+.store-menu .header__shop-badge:hover {
+    background-color: #f1f1f1;
+    cursor: default;
+}
+.store-menu .header__shop-name {
+    color: var(--gray-300);
+}
+
+.dropdown-menu-item {
+    width: 100%;
+    color: var(--gray-300);
+    font-weight: 400;
+    height: 2rem;
+    padding: 6px;
+}
+.dropdown-menu-item:hover {
+    text-decoration: none;
+    background-color: #f3f3f3;
 }
 
 @media screen and (min-width: 480px) {
@@ -505,7 +544,7 @@ main {
     overflow: hidden;
 }
 .progress-bar-slider {
-    background-color: #303030;
+    background-color: var(--gray-300);
     min-width: 4px;
     width: 0;
     height: 100%;
