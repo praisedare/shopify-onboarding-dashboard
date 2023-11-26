@@ -255,7 +255,7 @@ const createTaskItem = details => {
             <div class="setup-task__left-panel">
                 <div class="setup-task__header">
                     <div class="setup-task__status-icon-wrapper">
-                        <button class="btn p-0 m-0 _js-task-btn-state-toggle" style="height: 100%;">
+                        <button class="btn p-0 m-0 _js-task-btn-state-toggle" style="width: 24px; height: 24px;">
                             ${TaskItemProto.taskStateIcons.incomplete.src}
                         </button>
                     </div>
@@ -263,7 +263,7 @@ const createTaskItem = details => {
                 </div>
                 <div class="setup-task__details">
                     <div class="setup-task__details-wrapper">
-                        <p class=setup-task__description>${details.description} <a href="${details.helpLink}">Learn more</a></p>
+                        <p class="setup-task__description pr-2">${details.description} <a href="${details.helpLink}">Learn more</a></p>
                         <div style="display: flex; gap: 0.75rem;">
                             ${
                                 details.buttons.map(button => (
@@ -437,7 +437,7 @@ const createTaskItem = details => {
     $('.setup-guide__collapse-btn').onclick(async function() {
         /** @type {HTMLButtonElement} */
         let btn = this
-            , icon = btn.querySelector('img')
+            , icon = btn.querySelector('.setup-guide__collapse-icon')
             , body = $('.setup-guide__body')._elems[0]
         ;
 

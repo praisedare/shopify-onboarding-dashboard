@@ -4,7 +4,7 @@
 
 html {
     font-size: 16px;
-    font-family: Inter;
+    font-family: Inter, Arial, Helvetica, sans-serif;
     --font-size-md: 0.8125rem;
     --filter-color-light-gray: invert(100%) sepia(1%) saturate(437%) hue-rotate(289deg) brightness(113%) contrast(78%);
     --filter-color-medium-gray: invert(58%) sepia(1%) saturate(0%) hue-rotate(74deg) brightness(94%) contrast(89%);
@@ -238,6 +238,12 @@ a:hover {
 .px-2 { padding-left: 0.5rem; padding-right: 0.5rem; }
 .px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
 .px-4 { padding-left: 1rem; padding-right: 1rem; }
+
+.pr-0 { padding-right: 0 !important; }
+.pr-1 { padding-right: 0.25rem !important; }
+.pr-2 { padding-right: 0.5rem !important; }
+.pr-3 { padding-right: 0.75rem !important; }
+.pr-4 { padding-right: 1rem !important; }
 
 .py-0 { padding-top: 0; padding-bottom: 0; }
 .py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
@@ -579,6 +585,9 @@ main {
 .setup-task:not(.setup-task--open) .setup-task__right-panel {
     display: none;
 }
+.setup-task__left-panel {
+    width: 100%;
+}
 @media screen and (min-width: 480px) {
     .setup-task--open .setup-task__left-panel {
         width: 80%;
@@ -611,21 +620,19 @@ main {
     flex: 1;
     margin-bottom: 1rem;
     /* margin: 0.5rem 0.5rem 11px; */
+        margin-left: calc(var(--setup-task-padding) * 2 + var(--setup-task-icon-width));
 }
 .setup-task:not(.setup-task--open) .setup-task__details {
     margin: 0;
 }
-.setup-task__details-right {
+.setup-task__right-panel {
     display: none;
 }
 @media screen and (min-width: 480px) {
-    .setup-task__details {
-        margin-left: calc(var(--setup-task-padding) * 2 + var(--setup-task-icon-width));
-    }
     .setup-task__details-wrapper {
         max-width: 80%;
     }
-    .setup-task__details-right {
+    .setup-task__right-panel {
         width: 32.79%;
         display: flex;
         justify-content: end;
