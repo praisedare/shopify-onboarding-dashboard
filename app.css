@@ -10,6 +10,7 @@ html {
     --filter-color-medium-gray: invert(58%) sepia(1%) saturate(0%) hue-rotate(74deg) brightness(94%) contrast(89%);
     --filter-color-dark-gray: invert(95%) sepia(0%) saturate(1047%) hue-rotate(152deg) brightness(80%) contrast(82%);
     --filter-color-white: invert(100%) sepia(5%) saturate(141%) hue-rotate(77deg) brightness(120%) contrast(100%);
+    --header-height: 3.5rem;
     --text-light-gray: #e3e3e3;
     --text-dark-gray: #b5b5b5;
     --text-light-gray-with-opacity: #b5b5b5ef;
@@ -54,7 +55,7 @@ button:hover {
 header {
     display: flex;
     background-color: #1a1a1a;
-    height: 3.5rem;
+    height: var(--header-height);
     line-height: 20px;
 }
 
@@ -113,6 +114,7 @@ a:hover {
 .justify-center { justify-content: center; }
 .justify-between { justify-content: space-between; }
 .text-gray-300 { color: #303030; }
+.text-secondary { color: #616161; }
 
 .btn {
     border-radius: 0.5625rem;
@@ -260,9 +262,6 @@ a:hover {
     }
 }
 
-.header__logo-small {
-    
-}
 .header__logo-large {
     display: none;
 }
@@ -398,6 +397,33 @@ a:hover {
     .header__shop-icon {
         height: 100%;
         width: auto;
+    }
+}
+
+.popup-menu {
+    position: fixed;
+    top: calc(var(--header-height) + .5rem);
+    right: 0.5rem;
+    box-shadow: 0px 4px 8px 2px #0000000D;
+    border: 1px solid #DBDBDB;
+    width: 92vw;
+    background-color: #fff;
+    border-radius: 14px;
+}
+
+.alert-popup__body {
+    background: #F1F1F1;
+    border-radius: 0.125rem;
+    color: #616161;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media screen and (min-width: 480px) {
+    .popup-menu {
+        max-width: 380px;
     }
 }
 
