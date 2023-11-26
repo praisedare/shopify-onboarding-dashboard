@@ -16,12 +16,13 @@ const jqWrapper = (() => {
      * @param {HTMLElement|HTMLElement[]} elements
      */
     function jqWrapper(elements) {
-        const elems = Array.from(elements.length ? elements : [elements]);
+        const elems = Array.from('length' in elements ? elements : [elements]);
         // console.log('elems', elems)
         for (let i = 0; i < elems.length; i++) {
             this[i] = elems[i];
         }
         this._elems = elems
+        this.length = elems.length
     }
 
     /**
@@ -458,11 +459,15 @@ const createTaskItem = details => {
 }
 
 { // Popup Menus
-
+    const menuOpenClass = 'popup-menu--open'
+        , fullMenuOpenClass = `${menuOpenClass} animation__fadeInUp animation__fadeOutDown`
+    ;
     $('[data-popup-menu]').onclick(function() {
+        // Close other menus
+        $(c(menuOpenClass)).toggleClass(fullMenuOpenClass)
         const popupMenu = $(this.dataset.popupMenu);
         popupMenu._elems[0].style.display = 'block';
-        popupMenu.toggleClass('popup-menu--open animation__fadeInUp animation__fadeOutDown');
+        popupMenu.toggleClass(fullMenuOpenClass);
     })
 }
 
