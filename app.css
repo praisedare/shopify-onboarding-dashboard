@@ -545,10 +545,6 @@ main {
 .setup-guide__collapse-btn:hover {
     background: #0000000d;
 }
-.setup-guide__collapse-icon {
-    transform: rotate(0deg);
-    transition: transform 350ms;
-}
 
 .progress-bar-track {
     background-color: #e3e3e3;
@@ -631,13 +627,6 @@ main {
 @media screen and (min-width: 480px) {
     .setup-task__details-wrapper {
         max-width: 80%;
-    }
-    .setup-task__right-panel {
-        width: 32.79%;
-        display: flex;
-        justify-content: end;
-        position: relative;
-        top: calc(-1 * (var(--setup-task-header-height) - 8.5px))
     }
 }
 .setup-task__status-icon-wrapper {

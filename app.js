@@ -444,9 +444,7 @@ const createTaskItem = details => {
         body.classList.toggle('setup-guide__body--open')
 
         let openState = +btn.dataset.opened
-        icon.style.transform = openState
-            ? 'rotate(180deg)'
-            : 'rotate(0deg)'
+        icon.style.transform = `rotate(${+icon.style.transform.match(/\d+/)[0] + 180}deg)`
         btn.dataset.opened = +!openState
     });
 }
