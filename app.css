@@ -328,7 +328,7 @@ a:hover {
     transition: 0.15s;
 }
 .header__search-input::placeholder {
-    color: var(--text-light-gray-with-opacity);
+    color: #b5b5b5;
     font-weight: 300;
 }
 .header__search-input:hover {
@@ -381,9 +381,6 @@ a:hover {
     .header__shop-badge:hover {
         background-color: #4a4a4a;
     }
-}
-.header__bell-icon {
-    filter: var(--filter-color-light-gray);
 }
 
 .header__shop-badge {
