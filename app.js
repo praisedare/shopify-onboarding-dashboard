@@ -523,6 +523,7 @@ const createTaskItem = details => {
         /** @type {PopupMenu} */
         const menu = e
         menu._initialize();
+        console.log('popupmenu', e) // For some reason, the popup menus stop working (in Firefox) if I remove this line
     })
 
     /**
