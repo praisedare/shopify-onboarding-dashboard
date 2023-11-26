@@ -380,7 +380,7 @@ const createTaskItem = details => {
                     btnType: 'btn-dark',
                 },
                 {
-                    text: 'Import products',
+                    text: 'Import product',
                     btnType: 'btn-transparent',
                 }
             ],
@@ -411,7 +411,7 @@ const createTaskItem = details => {
             image: 'https://crushingit.tech/hackathon-assets/name-store.png',
         },
         {
-            title: 'Setup a payment provider',
+            title: 'Set up a payment provider',
             description: 'Choose a payment provider to start accepting payments. You’ll need to create an account with the payment provider and set it up with your Shopify store.',
             helpLink: 'https://help.shopify.com/en/manual/payments',
             buttons: [
