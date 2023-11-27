@@ -373,6 +373,14 @@ a:hover {
     height: 2rem;
 }
 
+.header__bell-icon-wrapper:focus-visible,
+.header__bell-icon-wrapper:hover,
+.header__shop-badge:focus-visible,
+.header__shop-badge:hover
+{
+    background-color: #4a4a4a;
+}
+
 @media screen and (min-width: 480px) {
     .header__bell-icon-wrapper {
         display: flex;
@@ -384,10 +392,6 @@ a:hover {
     .header__shop-badge {
         background-color: var(--color-translucent-gray);
         transition: background-color 0.15s;
-    }
-    .header__bell-icon-wrapper:hover,
-    .header__shop-badge:hover {
-        background-color: #4a4a4a;
     }
 }
 
