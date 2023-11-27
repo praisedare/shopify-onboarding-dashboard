@@ -595,7 +595,7 @@ const createTaskItem = details => {
             {
                 content: `
                     <div class="relative">
-                        <button class="header__shop-badge btn justify-start" style="flex-direction: row-reverse; width: 100%;" tabindex="-1">
+                        <button class="header__shop-badge flex gap-2 btn justify-start items-center" style="flex-direction: row-reverse; width: 100%;" tabindex="-1">
                             <span class="header__shop-name">Davii Collections</span>
                             <span class="header__shop-icon flex flex-center">DC</span>
                         </button>

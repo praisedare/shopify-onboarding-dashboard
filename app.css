@@ -469,6 +469,7 @@ a:hover {
 }
 .store-menu .header__shop-name {
     color: var(--gray-300);
+    display: block; /* Override the default display-none on mobile */
 }
 
 .dropdown-menu-item {
