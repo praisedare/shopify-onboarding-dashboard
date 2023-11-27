@@ -463,10 +463,10 @@ const createTaskItem = details => {
         if (nextTaskItem?.__proto__ !== taskItem.__proto__ || !c)
             return
 
-        while (nextTaskItem.complete)
+        while (nextTaskItem?.complete)
             nextTaskItem = nextTaskItem.nextElementSibling
 
-        nextTaskItem.expand()
+        nextTaskItem?.expand()
     }
 }
 
